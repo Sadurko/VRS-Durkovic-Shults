@@ -57,24 +57,27 @@ int main(void)
   while (1)
   {
 	  //GPIO IDR, read input from pin 6
-	  if(!(*((volatile uint32_t *)((uint32_t)(0x48000400 + 0x10U))) & (1 << 6)))
+	  //if(!(*((volatile uint32_t *)((uint32_t)(0x48000400 + 0x10U))) & (1 << 6)))
+
+	  //GPIO IDR, read input from pin 3
+	  if(!(*((volatile uint32_t *)((uint32_t)(0x48000400 + 0x10U))) & (1 << 3)))
 	  {
-		  //GPIO BSRR register, set output pin 3
+		  //GPIO BSRR register, set output pin 4
 		  LED_ON;
 		  //delay
 		  for(uint16_t i = 0; i < 0xFF00; i++){}
-		  //GPIO BRR, reset output pin 3
+		  //GPIO BRR, reset output pin 4
 		  LED_OFF;
 		  //delay
 		  for(uint16_t i = 0; i < 0xFF00; i++){}
 	  }
 	  else
 	  {
-		  //GPIO BSRR register, set output pin 3
+		  //GPIO BSRR register, set output pin 4
 		  LED_ON;
 		  //delay
 		  for(uint32_t i = 0; i < 0xFFFF0; i++){}
-		  //GPIO BRR, reset output pin 3
+		  //GPIO BRR, reset output pin 4
 		  LED_OFF;
 		  //delay
 		  for(uint32_t i = 0; i < 0xFFF00; i++){}
