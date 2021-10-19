@@ -30,29 +30,31 @@ int main(void)
    * Write to bits, that are meant for change.
    */
 
-  /*Enables clock for GPIO port B*/
-  *((volatile uint32_t *) (uint32_t)(0x40021000 + 0x00000014U)) |= (uint32_t)(1 << 18);
+  /*Enables clock for GPIO port A*/
+  *((volatile uint32_t *) (uint32_t)(0x40021000 + 0x00000014U)) |= (uint32_t)(1 << 17);
 
-  /*GPIOB pin 3 and 6 setup*/
+  /*GPIOA pin 3 and 4 setup*/
+  // *GPIOA pin 3 - switch
+  // *GPIOA pin 4 - LED
   /*GPIO MODER register*/
+  //Set mode for pin 4
+  *((volatile uint32_t *)((uint32_t)0x48000000)) &= ~(uint32_t)(0x3 << 8);
+  *((volatile uint32_t *)((uint32_t)0x48000000)) |= (uint32_t)(1 << 8);
   //Set mode for pin 3
-  *((volatile uint32_t *)((uint32_t)0x48000400)) &= ~(uint32_t)(0x3 << 6);
-  *((volatile uint32_t *)((uint32_t)0x48000400)) |= (uint32_t)(1 << 6);
-  //Set mode for pin 6
-  *((volatile uint32_t *)((uint32_t)0x48000400)) &= ~(uint32_t)(0x3 << 12);
+  *((volatile uint32_t *)((uint32_t)0x48000000)) &= ~(uint32_t)(0x3 << 6);
 
   /*GPIO OTYPER register*/
-  *((volatile uint32_t *)((uint32_t)(0x48000400 + 0x04U))) &= ~(1 << 3);
+  *((volatile uint32_t *)((uint32_t)(0x48000000 + 0x04U))) &= ~(1 << 4);
 
   /*GPIO OSPEEDR register*/
-  //Set Low speed for GPIOB pin 3
-  *((volatile uint32_t *)((uint32_t)(0x48000400 + 0x08U))) &= ~(0x3 << 6);
+  //Set Low speed for GPIOB pin 4
+  *((volatile uint32_t *)((uint32_t)(0x48000000 + 0x08U))) &= ~(0x3 << 8);
 
   /*GPIO PUPDR register, reset*/
-  //Set pull up for GPIOB pin 6 (input)
-  *((volatile uint32_t *)((uint32_t)(0x48000400 + 0x0CU))) |= (1 << 12);
-  //Set no pull for GPIOB pin 3
-  *((volatile uint32_t *)((uint32_t)(0x48000400 + 0x0CU))) &= ~(0x3 << 6);
+  //Set pull up for GPIOB pin 3 (input)
+  *((volatile uint32_t *)((uint32_t)(0x48000000 + 0x0CU))) |= (1 << 6);
+  //Set no pull for GPIOB pin 4
+  *((volatile uint32_t *)((uint32_t)(0x48000000 + 0x0CU))) &= ~(0x3 << 8);
 
   while (1)
   {
@@ -60,7 +62,7 @@ int main(void)
 	  //if(!(*((volatile uint32_t *)((uint32_t)(0x48000400 + 0x10U))) & (1 << 6)))
 
 	  //GPIO IDR, read input from pin 3
-	  if(!(*((volatile uint32_t *)((uint32_t)(0x48000400 + 0x10U))) & (1 << 3)))
+	  if(!(*((volatile uint32_t *)((uint32_t)(0x48000000 + 0x10U))) & (1 << 3)))
 	  {
 		  //GPIO BSRR register, set output pin 4
 		  LED_ON;
@@ -111,7 +113,7 @@ void Error_Handler(void)
   * @retval None
   */
 void assert_failed(char *file, uint32_t line)
-{ 
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
