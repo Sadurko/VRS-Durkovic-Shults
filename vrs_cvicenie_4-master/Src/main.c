@@ -39,6 +39,7 @@ int main(void)
 
   /*EXTI configuration*/
   //NVIC_SetPriority(EXTI3_IRQn, 2);
+  // prerusenie musi byt povolene v NVIC, inak by nefungovali
   //NVIC_EnableIRQ(EXTI3_IRQn);
   //Set interrupt priority and enable EXTI
   NVIC->IP[9] |= 2 << 4;
