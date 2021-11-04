@@ -6,7 +6,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under BSD 3-Clause license,
@@ -17,75 +17,105 @@
   ******************************************************************************
   */
 /* USER CODE END Header */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "gpio.h"
 
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
 
+/* USER CODE END Includes */
+
+/* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN PTD */
+
+/* USER CODE END PTD */
+
+/* Private define ------------------------------------------------------------*/
+/* USER CODE BEGIN PD */
+/* USER CODE END PD */
+
+/* Private macro -------------------------------------------------------------*/
+/* USER CODE BEGIN PM */
+
+/* USER CODE END PM */
+
+/* Private variables ---------------------------------------------------------*/
+
+/* USER CODE BEGIN PV */
+
+/* USER CODE END PV */
+
+/* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+/* USER CODE BEGIN PFP */
 
+/* USER CODE END PFP */
+
+/* Private user code ---------------------------------------------------------*/
+/* USER CODE BEGIN 0 */
 uint8_t switchState = 0;
+/* USER CODE END 0 */
 
+/**
+  * @brief  The application entry point.
+  * @retval int
+  */
 int main(void)
 {
-  /*Default system setup*/
+  /* USER CODE BEGIN 1 */
 
-	LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
+  /* USER CODE END 1 */
+
+  /* MCU Configuration--------------------------------------------------------*/
+
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+
+  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
 
   NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
 
+  /* System interrupt init*/
+  /* SysTick_IRQn interrupt configuration */
+  NVIC_SetPriority(SysTick_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),15, 0));
+
+  /* USER CODE BEGIN Init */
+
+  /* USER CODE END Init */
+
+  /* Configure the system clock */
   SystemClock_Config();
 
-  /*EXTI configuration*/
-  //NVIC_SetPriority(EXTI3_IRQn, 2);
-  // prerusenie musi byt povolene v NVIC, inak by nefungovali
-  //NVIC_EnableIRQ(EXTI3_IRQn);
-  //Set interrupt priority and enable EXTI
-  NVIC->IP[9] |= 2 << 4;
-  NVIC->ISER[0] |= 1 << 9;
+  /* USER CODE BEGIN SysInit */
 
-  /*set EXTI source PA4*/
-  SYSCFG->EXTICR[0] &= ~(0xFU << 12U);
-  //Enable interrupt from EXTI line 3
-  EXTI->IMR |= EXTI_IMR_MR3;
-  //Set EXTI trigger to falling edge
-  EXTI->RTSR &= ~(EXTI_IMR_MR3);
-  EXTI->FTSR |= EXTI_IMR_MR3;
+  /* USER CODE END SysInit */
 
-  /*GPIO configuration, PA4*/
-  // switch
-  RCC->AHBENR |= RCC_AHBENR_GPIOBEN;
-  GPIOB->MODER &= ~(GPIO_MODER_MODER4);
-  GPIOB->PUPDR &= ~(GPIO_PUPDR_PUPDR4);
-  GPIOB->PUPDR |= GPIO_PUPDR_PUPDR4_0;
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  /* USER CODE BEGIN 2 */
 
-  /*GPIO configuration, PB4*/
-  // LED
-  RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
-        GPIOA->MODER &= ~(GPIO_MODER_MODER4);
-        GPIOA->MODER |= GPIO_MODER_MODER4_0;
-        GPIOA->OTYPER &= ~(GPIO_OTYPER_OT_4);
-        GPIOA->OSPEEDR &= ~(GPIO_OSPEEDER_OSPEEDR4);
-        GPIOA->PUPDR &= ~(GPIO_PUPDR_PUPDR4);
+  /* USER CODE END 2 */
 
-    while (1)
-    {
-  	  // Modify the code below so it sets/resets used output pin connected to the LED
-  	  if(switchState)
-  	  {
-  		  GPIOA->BSRR |= GPIO_BSRR_BS_4;
-  		  for(uint16_t i=0; i<0xFF0; i++){}
-  		  GPIOA->BRR |= GPIO_BRR_BR_4;
-  		  for(uint16_t i=0; i<0xFF0; i++){}
-  	  }
-  	  else
-  	  {
-  		  GPIOA->BRR |= GPIO_BRR_BR_4;
-  	  }
-    }
-
-
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+  while (1)
+  {
+    /* USER CODE END WHILE */
+	  if(switchState)
+	  {
+		  GPIOA->BSRR |= GPIO_BSRR_BS_4;
+		  for(uint16_t i=0; i<0xFF0; i++){}
+		  GPIOA->BRR |= GPIO_BRR_BR_4;
+		  for(uint16_t i=0; i<0xFF0; i++){}
+	   }
+	   else
+	   {
+		   GPIOA->BRR |= GPIO_BRR_BR_4;
+	   }
+    /* USER CODE BEGIN 3 */
+  }
+  /* USER CODE END 3 */
 }
 
 /**
@@ -95,35 +125,32 @@ int main(void)
 void SystemClock_Config(void)
 {
   LL_FLASH_SetLatency(LL_FLASH_LATENCY_0);
-
-  if(LL_FLASH_GetLatency() != LL_FLASH_LATENCY_0)
+  while(LL_FLASH_GetLatency()!= LL_FLASH_LATENCY_0)
   {
-  Error_Handler();  
   }
   LL_RCC_HSI_Enable();
 
    /* Wait till HSI is ready */
   while(LL_RCC_HSI_IsReady() != 1)
   {
-    
+
   }
   LL_RCC_HSI_SetCalibTrimming(16);
   LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
   LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
-  LL_RCC_SetAPB2Prescaler(LL_RCC_APB1_DIV_1);
+  LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_1);
   LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_HSI);
 
    /* Wait till System clock is ready */
   while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_HSI)
   {
-  
+
   }
   LL_Init1msTick(8000000);
-  LL_SYSTICK_SetClkSource(LL_SYSTICK_CLKSOURCE_HCLK);
   LL_SetSystemCoreClock(8000000);
 }
 
-
+/* USER CODE BEGIN 4 */
 uint8_t check_button_state(GPIO_TypeDef* PORT, uint8_t PIN)
 {
 	uint8_t button_state = 0, timeout = 0;
@@ -153,19 +180,16 @@ uint8_t check_button_state(GPIO_TypeDef* PORT, uint8_t PIN)
 	}
 }
 
-
-void EXTI3_IRQHandler(void)
+void interrupt_callback()
 {
-	if(check_button_state(GPIOB, 4))
-	{
-		switchState ^= 1;
-	}
+	if(check_button_state(GPIOA, 3))
+		{
+			switchState ^= 1;
+		}
 
-	//Clear pending register flag
-	EXTI->PR |= (EXTI_PR_PIF3);
+		//Clear pending register flag
+		EXTI->PR |= (EXTI_PR_PIF3);
 }
-
-/* USER CODE BEGIN 4 */
 
 /* USER CODE END 4 */
 
@@ -177,7 +201,10 @@ void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
-
+  __disable_irq();
+  while (1)
+  {
+  }
   /* USER CODE END Error_Handler_Debug */
 }
 
@@ -189,11 +216,11 @@ void Error_Handler(void)
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(char *file, uint32_t line)
-{ 
+void assert_failed(uint8_t *file, uint32_t line)
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
-     tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */

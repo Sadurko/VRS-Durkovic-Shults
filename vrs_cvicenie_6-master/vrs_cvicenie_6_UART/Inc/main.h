@@ -36,6 +36,8 @@ extern "C" {
 #include "stm32f3xx_ll_utils.h"
 #include "stm32f3xx_ll_pwr.h"
 #include "stm32f3xx_ll_dma.h"
+#include "stm32f3xx_ll_usart.h"
+#include "stm32f3xx.h"
 #include "stm32f3xx_ll_gpio.h"
 
 #if defined(USE_FULL_ASSERT)
@@ -60,7 +62,6 @@ extern "C" {
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
 
-uint8_t check_button_state(GPIO_TypeDef* PORT, uint8_t PIN);
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/

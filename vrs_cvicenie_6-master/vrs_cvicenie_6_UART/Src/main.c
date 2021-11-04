@@ -20,72 +20,38 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "usart.h"
+#include "gpio.h"
 
 
 void SystemClock_Config(void);
 
-uint8_t switchState = 0;
+void process_serial_data(uint8_t ch);
 
 int main(void)
 {
-  /*Default system setup*/
 
-	LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
+  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
 
   NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
 
   SystemClock_Config();
 
-  /*EXTI configuration*/
-  //NVIC_SetPriority(EXTI3_IRQn, 2);
-  // prerusenie musi byt povolene v NVIC, inak by nefungovali
-  //NVIC_EnableIRQ(EXTI3_IRQn);
-  //Set interrupt priority and enable EXTI
-  NVIC->IP[9] |= 2 << 4;
-  NVIC->ISER[0] |= 1 << 9;
+  MX_GPIO_Init();
+  MX_USART2_UART_Init();
 
-  /*set EXTI source PA4*/
-  SYSCFG->EXTICR[0] &= ~(0xFU << 12U);
-  //Enable interrupt from EXTI line 3
-  EXTI->IMR |= EXTI_IMR_MR3;
-  //Set EXTI trigger to falling edge
-  EXTI->RTSR &= ~(EXTI_IMR_MR3);
-  EXTI->FTSR |= EXTI_IMR_MR3;
+  USART2_RegisterCallback(process_serial_data);
 
-  /*GPIO configuration, PA4*/
-  // switch
-  RCC->AHBENR |= RCC_AHBENR_GPIOBEN;
-  GPIOB->MODER &= ~(GPIO_MODER_MODER4);
-  GPIOB->PUPDR &= ~(GPIO_PUPDR_PUPDR4);
-  GPIOB->PUPDR |= GPIO_PUPDR_PUPDR4_0;
+  char tx_data = 'a';
 
-  /*GPIO configuration, PB4*/
-  // LED
-  RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
-        GPIOA->MODER &= ~(GPIO_MODER_MODER4);
-        GPIOA->MODER |= GPIO_MODER_MODER4_0;
-        GPIOA->OTYPER &= ~(GPIO_OTYPER_OT_4);
-        GPIOA->OSPEEDR &= ~(GPIO_OSPEEDER_OSPEEDR4);
-        GPIOA->PUPDR &= ~(GPIO_PUPDR_PUPDR4);
+  while (1)
+  {
+	  LL_USART_TransmitData8(USART2, tx_data++);
+	  tx_data == ('z' + 1) ? tx_data = 'a' : tx_data;
 
-    while (1)
-    {
-  	  // Modify the code below so it sets/resets used output pin connected to the LED
-  	  if(switchState)
-  	  {
-  		  GPIOA->BSRR |= GPIO_BSRR_BS_4;
-  		  for(uint16_t i=0; i<0xFF0; i++){}
-  		  GPIOA->BRR |= GPIO_BRR_BR_4;
-  		  for(uint16_t i=0; i<0xFF0; i++){}
-  	  }
-  	  else
-  	  {
-  		  GPIOA->BRR |= GPIO_BRR_BR_4;
-  	  }
-    }
-
-
+	  LL_mDelay(50);
+  }
 }
 
 /**
@@ -124,50 +90,31 @@ void SystemClock_Config(void)
 }
 
 
-uint8_t check_button_state(GPIO_TypeDef* PORT, uint8_t PIN)
+void process_serial_data(uint8_t ch)
 {
-	uint8_t button_state = 0, timeout = 0;
+	static uint8_t count = 0;
 
-	while(button_state < 20 && timeout < 50)
+	if(ch == 'a')
 	{
-		if(!(PORT->IDR & (1 << PIN))/*LL_GPIO_IsInputPinSet(PORT, PIN)*/)
+		count++;
+
+		if(count >= 3)
 		{
-			button_state += 1;
-		}
-		else
-		{
-			button_state = 0;
-		}
+			if((LL_GPIO_ReadInputPort(GPIOB) & (1 << 3)) >> 3)
+			{
+				LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_3);
+			}
+			else
+			{
+				LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_3);
+			}
 
-		timeout += 1;
-		LL_mDelay(1);
-	}
-
-	if((button_state >= 20) && (timeout <= 50))
-	{
-		return 1;
-	}
-	else
-	{
-		return 0;
+			count = 0;
+			return;
+		}
 	}
 }
 
-
-void EXTI3_IRQHandler(void)
-{
-	if(check_button_state(GPIOB, 4))
-	{
-		switchState ^= 1;
-	}
-
-	//Clear pending register flag
-	EXTI->PR |= (EXTI_PR_PIF3);
-}
-
-/* USER CODE BEGIN 4 */
-
-/* USER CODE END 4 */
 
 /**
   * @brief  This function is executed in case of error occurrence.
