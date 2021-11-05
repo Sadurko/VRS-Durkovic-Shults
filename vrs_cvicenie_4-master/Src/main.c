@@ -30,7 +30,7 @@ int main(void)
 {
   /*Default system setup*/
 
-	LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
+  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
 
   NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
@@ -38,36 +38,36 @@ int main(void)
   SystemClock_Config();
 
   /*EXTI configuration*/
-  //NVIC_SetPriority(EXTI3_IRQn, 2);
+  NVIC_SetPriority(EXTI4_IRQn, 2);
+  NVIC_EnableIRQ(EXTI4_IRQn);
   // prerusenie musi byt povolene v NVIC, inak by nefungovali
-  //NVIC_EnableIRQ(EXTI3_IRQn);
   //Set interrupt priority and enable EXTI
-  NVIC->IP[9] |= 2 << 4;
-  NVIC->ISER[0] |= 1 << 9;
+  // NVIC->IP[9] |= 2 << 4;
+  // NVIC->ISER[0] |= 1 << 10;
 
-  /*set EXTI source PA4*/
-  SYSCFG->EXTICR[0] &= ~(0xFU << 12U);
-  //Enable interrupt from EXTI line 3
-  EXTI->IMR |= EXTI_IMR_MR3;
+  /*set EXTI source PB4*/
+  SYSCFG->EXTICR[1] &= ~(0xEU << 0U);
+  //Enable interrupt from EXTI line 4
+  EXTI->IMR |= EXTI_IMR_MR4;
   //Set EXTI trigger to falling edge
-  EXTI->RTSR &= ~(EXTI_IMR_MR3);
-  EXTI->FTSR |= EXTI_IMR_MR3;
+  EXTI->RTSR &= ~(EXTI_IMR_MR4);
+  EXTI->FTSR |= EXTI_IMR_MR4;
 
-  /*GPIO configuration, PA4*/
+  /*GPIO configuration, PB4*/
   // switch
   RCC->AHBENR |= RCC_AHBENR_GPIOBEN;
   GPIOB->MODER &= ~(GPIO_MODER_MODER4);
   GPIOB->PUPDR &= ~(GPIO_PUPDR_PUPDR4);
   GPIOB->PUPDR |= GPIO_PUPDR_PUPDR4_0;
 
-  /*GPIO configuration, PB4*/
+  /*GPIO configuration, PA4*/
   // LED
   RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
-        GPIOA->MODER &= ~(GPIO_MODER_MODER4);
-        GPIOA->MODER |= GPIO_MODER_MODER4_0;
-        GPIOA->OTYPER &= ~(GPIO_OTYPER_OT_4);
-        GPIOA->OSPEEDR &= ~(GPIO_OSPEEDER_OSPEEDR4);
-        GPIOA->PUPDR &= ~(GPIO_PUPDR_PUPDR4);
+  GPIOA->MODER &= ~(GPIO_MODER_MODER4);
+  GPIOA->MODER |= GPIO_MODER_MODER4_0;
+  GPIOA->OTYPER &= ~(GPIO_OTYPER_OT_4);
+  GPIOA->OSPEEDR &= ~(GPIO_OSPEEDER_OSPEEDR4);
+  GPIOA->PUPDR &= ~(GPIO_PUPDR_PUPDR4);
 
     while (1)
     {
@@ -154,7 +154,7 @@ uint8_t check_button_state(GPIO_TypeDef* PORT, uint8_t PIN)
 }
 
 
-void EXTI3_IRQHandler(void)
+void EXTI4_IRQHandler(void)
 {
 	if(check_button_state(GPIOB, 4))
 	{
@@ -162,7 +162,7 @@ void EXTI3_IRQHandler(void)
 	}
 
 	//Clear pending register flag
-	EXTI->PR |= (EXTI_PR_PIF3);
+	EXTI->PR |= (EXTI_PR_PIF4);
 }
 
 /* USER CODE BEGIN 4 */
