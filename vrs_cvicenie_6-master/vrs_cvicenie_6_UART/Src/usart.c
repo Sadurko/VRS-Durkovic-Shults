@@ -74,6 +74,8 @@ void MX_USART2_UART_Init(void)
 void rx_usart2(uint8_t ch)
 {
 	if (usart2_callback != 0)
+		// registruje sa callback na tuto funkciu, ak sa zaregistruje tak sa vykoná funkcia,
+		// cez callback sa zavola funkcia ktoru chcem vyvolat
 	{
 		usart2_callback(ch);
 	}
