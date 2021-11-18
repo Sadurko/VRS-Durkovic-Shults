@@ -49,7 +49,7 @@
 
 /* USER CODE BEGIN PV */
   uint8_t tx_data[] = "Data to send over UART DMA!\n\r";
-  uint8_t rx_data[10];
+  uint8_t rx_data[10] = "          ";
   uint8_t count = 0;
   uint8_t countUpper = 0;
   uint8_t countLower = 0;
@@ -115,6 +115,7 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  int deley_count = 0;
   while (1)
   {
     /* USER CODE END WHILE */
@@ -123,8 +124,13 @@ int main(void)
 	USART2_CheckDmaReception();
 	LL_mDelay(10);
 #else
-	USART2_PutBuffer(tx_data, sizeof(tx_data));
-	LL_mDelay(1000);
+	if(deley_count == 30)
+	{
+		USART2_PutBuffer(rx_data, sizeof(rx_data));
+		deley_count = 0;
+	}
+	LL_mDelay(100);
+	deley_count++;
 #endif
 
     /* USER CODE BEGIN 3 */
@@ -183,11 +189,17 @@ void processDmaData(const uint8_t* data, uint16_t len)
 {
 	if(*(data) == '#')
 	{
-		for(uint8_t i = 1; (i < 35); i++)
+		for(uint8_t i = 0; (i <= 35); i++)
 		{
+			rx_data[i%10 ] = *(data+i);
 			if(*(data+i) == '$')
 			{
 				listen = 1;
+				break;
+			}
+			if(i == 35)
+			{
+				listen = 0;
 			}
 		}
 
