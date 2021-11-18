@@ -194,13 +194,13 @@ void processDmaData(const uint8_t* data, uint16_t len)
 		if(listen)
 		{
 			// cyklus rata male a velke pismena
-			for(i = 1; i < len; i++)
+			for(uint8_t i = 1; i < len; i++)
 			{
-				if(islower(mem(i)))
+				if(islower(*(data+i)))
 				{
 					countLower++;
 				}
-				else if(isupper(mem(i)))
+				else if(isupper(*(data+i)))
 				{
 					countUpper++;
 				}

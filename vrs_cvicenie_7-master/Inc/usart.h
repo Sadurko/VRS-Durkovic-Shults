@@ -6,7 +6,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under BSD 3-Clause license,
@@ -31,11 +31,14 @@
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN Private defines */
-#define DMA_USART2_BUFFER_SIZE 64
+#define DMA_USART2_BUFFER_SIZE 20
 
 /* USER CODE END Private defines */
 
 void MX_USART2_UART_Init(void);
+void USART2_PutBuffer(uint8_t *buffer, uint8_t length);
+void USART2_CheckDmaReception(void);
+void USART2_RegisterCallback(void *callback);
 
 /* USER CODE BEGIN Prototypes */
 
