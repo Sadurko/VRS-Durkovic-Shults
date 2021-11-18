@@ -23,6 +23,7 @@
 #include "dma.h"
 #include "usart.h"
 #include "gpio.h"
+#include "ctype.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -50,6 +51,10 @@
   uint8_t tx_data[] = "Data to send over UART DMA!\n\r";
   uint8_t rx_data[10];
   uint8_t count = 0;
+  uint8_t countUpper = 0;
+  uint8_t countLower = 0;
+  uint8_t listen = 0; // moze byt potrebne zmenit
+  char mem[35];
 
 /* USER CODE END PV */
 
@@ -57,6 +62,7 @@
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 void receive_dma_data(const uint8_t* data, uint16_t len);
+void processDmaData(const uint8_t* data, uint16_t len);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -73,12 +79,12 @@ int main(void)
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
-  
+
 
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  
+
   LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
 
@@ -102,7 +108,8 @@ int main(void)
   MX_DMA_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-  USART2_RegisterCallback(receive_dma_data);
+  // vyberanie funkcii
+  USART2_RegisterCallback(processDmaData);
 
   /* USER CODE END 2 */
 
@@ -135,14 +142,14 @@ void SystemClock_Config(void)
 
   if(LL_FLASH_GetLatency() != LL_FLASH_LATENCY_0)
   {
-  Error_Handler();  
+  Error_Handler();
   }
   LL_RCC_HSI_Enable();
 
    /* Wait till HSI is ready */
   while(LL_RCC_HSI_IsReady() != 1)
   {
-    
+
   }
   LL_RCC_HSI_SetCalibTrimming(16);
   LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
@@ -153,7 +160,7 @@ void SystemClock_Config(void)
    /* Wait till System clock is ready */
   while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_HSI)
   {
-  
+
   }
   LL_Init1msTick(8000000);
   LL_SYSTICK_SetClkSource(LL_SYSTICK_CLKSOURCE_HCLK);
@@ -170,6 +177,36 @@ void receive_dma_data(const uint8_t* data, uint16_t len)
 			count++;
 		}
     }
+}
+
+void processDmaData(const uint8_t* data, uint16_t len)
+{
+	if(*(data) == '#')
+	{
+		for(uint8_t i = 1; (i < 35); i++)
+		{
+			if(*(data+i) == '$')
+			{
+				listen = 1;
+			}
+		}
+
+		if(listen)
+		{
+			// cyklus rata male a velke pismena
+			for(i = 1; i < len; i++)
+			{
+				if(islower(mem(i)))
+				{
+					countLower++;
+				}
+				else if(isupper(mem(i)))
+				{
+					countUpper++;
+				}
+			}
+		}
+	}
 }
 
 /* USER CODE END 4 */
@@ -195,7 +232,7 @@ void Error_Handler(void)
   * @retval None
   */
 void assert_failed(char *file, uint32_t line)
-{ 
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
