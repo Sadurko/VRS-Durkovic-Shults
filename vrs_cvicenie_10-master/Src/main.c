@@ -187,36 +187,62 @@ void receive_dma_data(const uint8_t* data, uint16_t len)
     }
 }
 
+static uint8_t count = 0;
+static uint8_t rezim = 0;
+
 void processDmaData(const uint8_t* data, uint16_t len)
 {
+	char manual[6] = "manual";
+	char automat[4] = "auto";
+	char pwm[5] = "pwm  ";
+	char aux[6];
+	int xx;
+
 	if(*(data) == '$')
 	{
-		for(uint8_t i = 0; (i <= 35); i++)
+		for(uint8_t i = 0; (i <= 7); i++)
 		{
-			rx_data[i%10 ] = *(data+i);
 			if(*(data+i) == '$')
 			{
 				listen = 1;
+				len = i - 1; // ulozi na akej pozicii bol najdeny druhy $
 				break;
 			}
-			if(i == 35)
+			if(i == 7) // najdlhsi mozny signal ma 7 znakov aj s ukoncovacim $
 			{
 				listen = 0;
 			}
 		}
 
-		if(listen)
+		if(listen) // pocuva iba ak prijalo prikaz zacinajuci a konciaci $
 		{
-			// cyklus rata male a velke pismena
 			for(uint8_t i = 1; i < len; i++)
 			{
-				if(islower(*(data+i)))
-				{
-					countLower++;
+				aux[i-1] = *(data+i);
+			}
+
+			if(len == 6) // porovnava s "manual"
+			{
+				if(strcmp(aux, manual) == 0) {
+					rezim = 0; // nastavi rezim
 				}
-				else if(isupper(*(data+i)))
+			}
+			else if(len == 4) // porovnava s "auto"
+			{
+				if(strcmp(aux, automat) == 0) {
+					rezim = 1;	// nastavi rezim
+				}
+			}
+			else if(len == 5)
+			{
+				if(isdigit(aux[3]) && isdifit(aux[4])) // skontroluje ci ide o cisla
 				{
-					countUpper++;
+					x1 = 10*atoi(aux[3]) + atoi(aux[4]); // do premennej ulozi cislo z prikazu
+					aux[3] = ' '; // na miesto cisel vlozi medzery pre porovnanie ci sedi prikaz
+					aux[4] = ' ';
+					if(strcmp(aux, pwm) == 0) {
+						rezim = 2;
+					}
 				}
 			}
 		}
