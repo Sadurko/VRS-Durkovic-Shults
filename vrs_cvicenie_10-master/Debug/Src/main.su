@@ -12,8 +12,8 @@ stm32f3xx_ll_bus.h:867:22:LL_APB2_GRP1_EnableClock	24	static
 stm32f3xx_ll_system.h:1634:22:LL_FLASH_SetLatency	16	static
 stm32f3xx_ll_system.h:1647:26:LL_FLASH_GetLatency	4	static
 stm32f3xx_ll_cortex.h:260:22:LL_SYSTICK_SetClkSource	16	static
-main.c:78:5:main	16	static
-main.c:147:6:SystemClock_Config	8	static
-main.c:179:6:receive_dma_data	24	static
-main.c:190:6:processDmaData	24	static
-main.c:231:6:Error_Handler	4	static
+main.c:80:5:main	16	static
+main.c:149:6:SystemClock_Config	8	static
+main.c:181:6:receive_dma_data	24	static
+main.c:194:6:processDmaData	56	static
+main.c:258:6:Error_Handler	4	static

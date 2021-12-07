@@ -26,6 +26,8 @@
 #include "tim.h"
 #include "gpio.h"
 #include "ctype.h"
+#include "string.h"
+#include "stdlib.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -110,7 +112,7 @@ int main(void)
   MX_DMA_Init();
   MX_USART2_UART_Init();
   MX_ADC1_Init();
-  MX_TIM3_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   // vyberanie funkcii
   USART2_RegisterCallback(processDmaData);
@@ -187,7 +189,6 @@ void receive_dma_data(const uint8_t* data, uint16_t len)
     }
 }
 
-static uint8_t count = 0;
 static uint8_t rezim = 0;
 
 void processDmaData(const uint8_t* data, uint16_t len)
@@ -224,20 +225,20 @@ void processDmaData(const uint8_t* data, uint16_t len)
 			if(len == 6) // porovnava s "manual"
 			{
 				if(strcmp(aux, manual) == 0) {
-					rezim = 0; // nastavi rezim
+					rezim = 1; // nastavi rezim
 				}
 			}
 			else if(len == 4) // porovnava s "auto"
 			{
 				if(strcmp(aux, automat) == 0) {
-					rezim = 1;	// nastavi rezim
+					rezim = 0;	// nastavi rezim
 				}
 			}
-			else if(len == 5)
+			else if((len == 5) && (rezim == 1))
 			{
-				if(isdigit(aux[3]) && isdifit(aux[4])) // skontroluje ci ide o cisla
+				if((aux[3] >= '0' && aux[3] <= '9') && (aux[4] >= '0' && aux[4] <= '9')) // skontroluje ci ide o cisla
 				{
-					x1 = 10*atoi(aux[3]) + atoi(aux[4]); // do premennej ulozi cislo z prikazu
+					xx = 10*(aux[3] - '0') + (aux[4] - '0'); // do premennej ulozi cislo z prikazu
 					aux[3] = ' '; // na miesto cisel vlozi medzery pre porovnanie ci sedi prikaz
 					aux[4] = ' ';
 					if(strcmp(aux, pwm) == 0) {

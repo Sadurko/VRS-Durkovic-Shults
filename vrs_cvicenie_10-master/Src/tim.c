@@ -38,7 +38,7 @@ void MX_TIM2_Init(void)
   NVIC_EnableIRQ(TIM2_IRQn);
 
   //TIM2 clock = 8MHz
-  TIM_InitStruct.Prescaler = 79999; 								//100Hz
+  TIM_InitStruct.Prescaler = 7999; 								//100Hz
   TIM_InitStruct.CounterMode = LL_TIM_COUNTERMODE_UP;
   TIM_InitStruct.Autoreload = 499;								//500ms
   TIM_InitStruct.ClockDivision = LL_TIM_CLOCKDIVISION_DIV1;
