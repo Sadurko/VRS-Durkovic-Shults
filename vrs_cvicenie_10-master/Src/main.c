@@ -26,8 +26,6 @@
 #include "tim.h"
 #include "gpio.h"
 #include "ctype.h"
-#include "stdlib.h"
-#include "string.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -112,7 +110,7 @@ int main(void)
   MX_DMA_Init();
   MX_USART2_UART_Init();
   MX_ADC1_Init();
-  MX_TIM2_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
   // vyberanie funkcii
   USART2_RegisterCallback(processDmaData);
@@ -178,9 +176,6 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-static uint8_t rezim = 0;
-static int xx = 0;
-
 void receive_dma_data(const uint8_t* data, uint16_t len)
 {
     for(uint8_t i = 0; i < len; i++)
@@ -192,12 +187,16 @@ void receive_dma_data(const uint8_t* data, uint16_t len)
     }
 }
 
+static uint8_t count = 0;
+static uint8_t rezim = 0;
+
 void processDmaData(const uint8_t* data, uint16_t len)
 {
 	char manual[6] = "manual";
 	char automat[4] = "auto";
 	char pwm[5] = "pwm  ";
 	char aux[6];
+	int xx;
 
 	if(*(data) == '$')
 	{
@@ -219,27 +218,26 @@ void processDmaData(const uint8_t* data, uint16_t len)
 		{
 			for(uint8_t i = 1; i < len; i++)
 			{
-				aux[i-1] = tolower(*(data+i)); // ked pocuva tak ulozi znaky do pomocnej + ich zmeni na lowercase
+				aux[i-1] = *(data+i);
 			}
 
 			if(len == 6) // porovnava s "manual"
 			{
 				if(strcmp(aux, manual) == 0) {
-					rezim = 1; // nastavi rezim
+					rezim = 0; // nastavi rezim
 				}
 			}
 			else if(len == 4) // porovnava s "auto"
 			{
 				if(strcmp(aux, automat) == 0) {
-					rezim = 2;	// nastavi rezim
+					rezim = 1;	// nastavi rezim
 				}
 			}
-			// prikaz PWMxx
-			else if((len == 5) && (rezim == 1)) // funguje iba ak bol pred tym spusteny manualny rezim
+			else if(len == 5)
 			{
-				if(isdigit(aux[3]) && isdigit(aux[4])) // skontroluje ci ide o cisla
+				if(isdigit(aux[3]) && isdifit(aux[4])) // skontroluje ci ide o cisla
 				{
-					xx = 10*atoi(aux[3]) + atoi(aux[4]); // do premennej ulozi cislo z prikazu
+					x1 = 10*atoi(aux[3]) + atoi(aux[4]); // do premennej ulozi cislo z prikazu
 					aux[3] = ' '; // na miesto cisel vlozi medzery pre porovnanie ci sedi prikaz
 					aux[4] = ' ';
 					if(strcmp(aux, pwm) == 0) {
