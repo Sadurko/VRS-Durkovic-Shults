@@ -135,6 +135,7 @@ int main(void)
 	USART2_CheckDmaReception();
 	LL_mDelay(10);
 #else
+	USART2_CheckDmaReception();
 	USART2_RegisterCallback(processDmaData);
 	if(rezim == 0)
 	{
