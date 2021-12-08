@@ -53,7 +53,7 @@
 
 /* USER CODE BEGIN PV */
   uint8_t tx_data[] = "Data to send over UART DMA!\n\r";
-  uint8_t rx_data[10] = "          ";
+  uint8_t rx_data[10] = "";
   uint8_t count = 0;
   uint8_t countUpper = 0;
   uint8_t countLower = 0;
@@ -66,11 +66,16 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 void receive_dma_data(const uint8_t* data, uint16_t len);
 void processDmaData(const uint8_t* data, uint16_t len);
+void setDutyCyckle(uint8_t D);
+
+void TimerCaptureCompare_Callback(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 float voltage = 0;
+uint32_t uwMeasuredDutyCycle = 0;
+static uint8_t rezim = 0;
 /* USER CODE END 0 */
 
 /**
@@ -120,7 +125,8 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  int deley_count = 0;
+  int deley_count = 0,turning_on = 1;
+
   while (1)
   {
     /* USER CODE END WHILE */
@@ -129,13 +135,28 @@ int main(void)
 	USART2_CheckDmaReception();
 	LL_mDelay(10);
 #else
-	if(deley_count == 30)
+	USART2_RegisterCallback(processDmaData);
+	if(rezim == 0)
 	{
-		USART2_PutBuffer(rx_data, sizeof(rx_data));
-		deley_count = 0;
+		if(turning_on)
+		{
+			if(deley_count > 98)
+			{
+				turning_on = 0;
+			}
+			deley_count++;
+			setDutyCycle(deley_count);
+		}else
+		{
+			if(deley_count <2)
+			{
+				turning_on = 1;
+			}
+			deley_count--;
+			setDutyCycle(deley_count);
+		}
 	}
-	LL_mDelay(100);
-	deley_count++;
+	LL_mDelay(10);
 #endif
     /* USER CODE BEGIN 3 */
   }
@@ -172,7 +193,7 @@ void SystemClock_Config(void)
   {
   
   }
-  LL_Init1msTick(8000000);
+  LL_Init1msTick(8000000); // 8 MHz
   LL_SYSTICK_SetClkSource(LL_SYSTICK_CLKSOURCE_HCLK);
   LL_SetSystemCoreClock(8000000);
 }
@@ -189,24 +210,32 @@ void receive_dma_data(const uint8_t* data, uint16_t len)
     }
 }
 
-static uint8_t rezim = 0;
+
+void setDutyCycle(uint8_t D)
+{
+	uint32_t P; // dlzka pulzu
+	uint32_t T = LL_TIM_GetAutoReload(TIM2) + 1; // dlzka periody
+
+	P = (D*T)/100;
+	LL_TIM_OC_SetCompareCH1(TIM2,P);
+}
 
 void processDmaData(const uint8_t* data, uint16_t len)
 {
 	char manual[6] = "manual";
 	char automat[4] = "auto";
-	char pwm[5] = "pwm  ";
-	char aux[6];
-	int xx;
+	char pwm[5] = "PWM  ";
+	char aux[6] = "";
+	uint8_t xx;
 
 	if(*(data) == '$')
 	{
-		for(uint8_t i = 0; (i <= 7); i++)
+		for(uint8_t i = 0; (i <= sizeof(data)); i++)
 		{
 			if(*(data+i) == '$')
 			{
 				listen = 1;
-				len = i - 1; // ulozi na akej pozicii bol najdeny druhy $
+				//len = i - 1; // ulozi na akej pozicii bol najdeny druhy $
 				break;
 			}
 			if(i == 7) // najdlhsi mozny signal ma 7 znakov aj s ukoncovacim $
@@ -217,38 +246,64 @@ void processDmaData(const uint8_t* data, uint16_t len)
 
 		if(listen) // pocuva iba ak prijalo prikaz zacinajuci a konciaci $
 		{
-			for(uint8_t i = 1; i < len; i++)
+			int lenData;
+			for(lenData = 0; data+1 && *(data + lenData + 1) != '$' && lenData < 6; lenData++)
 			{
-				aux[i-1] = *(data+i);
+				aux[lenData] = *(data  +lenData+1);
 			}
 
-			if(len == 6) // porovnava s "manual"
+			if(lenData == 6) // porovnava s "manual"
 			{
-				if(strcmp(aux, manual) == 0) {
+				int x = compareTwoStrings(aux,manual);
+				if(x == 0) {
 					rezim = 1; // nastavi rezim
 				}
 			}
-			else if(len == 4) // porovnava s "auto"
+			else if(lenData == 4) // porovnava s "auto"
 			{
-				if(strcmp(aux, automat) == 0) {
+				if(compareTwoStrings(aux, automat) == 0) {
 					rezim = 0;	// nastavi rezim
 				}
 			}
-			else if((len == 5) && (rezim == 1))
+			else if((lenData == 5) && (rezim == 1))
 			{
 				if((aux[3] >= '0' && aux[3] <= '9') && (aux[4] >= '0' && aux[4] <= '9')) // skontroluje ci ide o cisla
 				{
 					xx = 10*(aux[3] - '0') + (aux[4] - '0'); // do premennej ulozi cislo z prikazu
 					aux[3] = ' '; // na miesto cisel vlozi medzery pre porovnanie ci sedi prikaz
 					aux[4] = ' ';
-					if(strcmp(aux, pwm) == 0) {
-						rezim = 2;
+					float x = compareTwoStrings(aux, pwm);
+					if(x == 0) {
+						setDutyCycle(xx);
 					}
 				}
 			}
 		}
 	}
 }
+
+int compareTwoStrings(char str1[],char str2[])
+{
+	for(int i = 0; i < sizeof(str1);i++)
+	{
+		if(i > sizeof(str2)) return 1;
+		if(str1[i] != str2[i]) return 1;
+	}
+	return 0;
+}
+void TimerCaptureCompare_Callback(void)
+{
+	uint32_t CNT = LL_TIM_GetCounter(TIM2);
+	uint32_t ARR = LL_TIM_GetAutoReload(TIM2);
+
+	if (LL_TIM_OC_GetCompareCH1(TIM2) > ARR)
+	{
+		// osetrenie pretecenia pocitadla
+		CNT = CNT + ARR + 1;
+	}
+	uwMeasuredDutyCycle = (CNT * 100)/(ARR + 1);
+}
+
 /* USER CODE END 4 */
 
 /**

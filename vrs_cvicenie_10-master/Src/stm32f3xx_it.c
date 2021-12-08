@@ -90,6 +90,7 @@ void HardFault_Handler(void)
   while (1)
   {
     /* USER CODE BEGIN W1_HardFault_IRQn 0 */
+
     /* USER CODE END W1_HardFault_IRQn 0 */
   }
 }
@@ -204,22 +205,13 @@ void SysTick_Handler(void)
   */
 void TIM2_IRQHandler(void)
 {
-	if(LL_TIM_IsActiveFlag_UPDATE(TIM2))
+	if(LL_TIM_IsActiveFlag_CC1(TIM2))
 	{
-		if(LL_GPIO_IsOutputPinSet(GPIOA, LL_GPIO_PIN_5))
-		{
-			LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_5);
-		}
-		else
-		{
-			LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_5);
-		}
+		LL_TIM_ClearFlag_CC1(TIM2);
 
-		ADC_start_conversion();
-		voltage = ADC_convertedValue2float();
+		// funkcia ktora spracuva interupt TIM2
+		TimerCaptureCompare_Callback();
 	}
-
-	LL_TIM_ClearFlag_UPDATE(TIM2);
 }
 
 /**

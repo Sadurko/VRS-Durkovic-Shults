@@ -30,6 +30,8 @@ void USART2_RegisterCallback(void *callback)
 	if(callback != 0)
 	{
 		USART2_ProcessData = callback;
+		memset(bufferUSART2dma ,'\0',DMA_USART2_BUFFER_SIZE);
+
 	}
 }
 
