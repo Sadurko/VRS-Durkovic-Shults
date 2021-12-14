@@ -55,15 +55,37 @@ int main(void)
   MX_TIM3_Init();
 
   int dispStart = 0;
+  int goForward = 1;
   while (1)
   {
 	  char text[4];
-	  text[0] = name[(dispStart)%sizeof(name)];
-	  text[1] = name[(dispStart + 1)%sizeof(name)];
-	  text[2] = name[(dispStart + 2)%sizeof(name)];
-	  text[3] = name[(dispStart + 3)%sizeof(name)];
-	  displayNumber(text[3],text[2],text[1],text[0]);
-	  dispStart++;
+
+
+
+	  if(goForward){
+		  text[0] = name[(dispStart)];
+		  text[1] = name[(dispStart + 1)];
+		  text[2] = name[(dispStart + 2)];
+		  text[3] = name[(dispStart + 3)];
+		  displayNumber(text[3],text[2],text[1],text[0]);
+		  dispStart++;
+		  if(dispStart + 3 >= sizeof(name))
+		  {
+			  goForward = 0;
+		  }
+	  }else
+	  {
+		  text[0] = name[(dispStart)];
+		  text[1] = name[(dispStart - 1)];
+		  text[2] = name[(dispStart - 2)];
+		  text[3] = name[(dispStart - 3)];
+		  displayNumber(text[0],text[1],text[2],text[3]);
+		  dispStart--;
+		  if(dispStart - 3 >= sizeof(name))
+		  {
+		  	goForward = 1;
+		  }
+	  }
 	  LL_mDelay(500);
 	  /*if(disp_time > (saved_time + 100))
 	  {
