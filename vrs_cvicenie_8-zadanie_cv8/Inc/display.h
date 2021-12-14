@@ -45,6 +45,7 @@ typedef struct
 	uint8_t digit_num;
 	uint8_t negative;
 	uint8_t resolution;
+	char dispText[4];
 }display_data_;
 
 void resetDigits(void);
@@ -64,4 +65,4 @@ void setEight(void);
 void setNine(void);
 void setZero(void);
 
-void displayNumber(double num);
+void displayNumber(char char1,char char2,char char3,char char4);

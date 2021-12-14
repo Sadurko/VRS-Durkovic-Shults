@@ -30,6 +30,7 @@ extern uint64_t disp_time;
 
 uint64_t saved_time;
 double num_to_display = 10;
+char name[] = "Janko_Bukvicka_123";
 
 int main(void)
 {
@@ -53,11 +54,21 @@ int main(void)
 
   MX_TIM3_Init();
 
+  int dispStart = 0;
   while (1)
   {
-	  if(disp_time > (saved_time + 100))
+	  char text[4];
+	  text[0] = name[(dispStart)%sizeof(name)];
+	  text[1] = name[(dispStart + 1)%sizeof(name)];
+	  text[2] = name[(dispStart + 2)%sizeof(name)];
+	  text[3] = name[(dispStart + 3)%sizeof(name)];
+	  displayNumber(text[3],text[2],text[1],text[0]);
+	  dispStart++;
+	  LL_mDelay(500);
+	  /*if(disp_time > (saved_time + 100))
 	  {
-		  displayNumber(num_to_display);
+		  //displayNumber(4444);
+		  displayNumber("AbcN");
 	  	  num_to_display -= 0.10;
 	  	  saved_time = disp_time;
 
@@ -65,10 +76,11 @@ int main(void)
 	  	  {
 	  		  num_to_display = 100;
 	  	  }
-	  }
+	  }*/
   }
 
 }
+
 
 /**
   * @brief System Clock Configuration
