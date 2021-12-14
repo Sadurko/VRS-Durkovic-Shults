@@ -27,23 +27,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  00020018  2**0
                   CONTENTS, READONLY
- 12 .debug_info   000059b4  00000000  00000000  00020048  2**0
+ 12 .debug_info   000058f8  00000000  00000000  00020048  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 000011d7  00000000  00000000  000259fc  2**0
+ 13 .debug_abbrev 0000119b  00000000  00000000  00025940  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 000005c0  00000000  00000000  00026bd8  2**3
+ 14 .debug_aranges 00000570  00000000  00000000  00026ae0  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_ranges 00000528  00000000  00000000  00027198  2**3
+ 15 .debug_ranges 000004d8  00000000  00000000  00027050  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  000035f8  00000000  00000000  000276c0  2**0
+ 16 .debug_macro  000035f8  00000000  00000000  00027528  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00004c65  00000000  00000000  0002acb8  2**0
+ 17 .debug_line   00004b33  00000000  00000000  0002ab20  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    00075ca3  00000000  00000000  0002f91d  2**0
+ 18 .debug_str    00075c53  00000000  00000000  0002f653  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000053  00000000  00000000  000a55c0  2**0
+ 19 .comment      00000053  00000000  00000000  000a52a6  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00001620  00000000  00000000  000a5614  2**2
+ 20 .debug_frame  00001508  00000000  00000000  000a52fc  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -2460,10 +2460,10 @@ void setDigits(void)
  8000f4a:	bd80      	pop	{r7, pc}
 
 08000f4c <setA>:
-	LL_GPIO_ResetOutputPin(SEGMENTA_PORT, SEGMENTA_PIN);
-	LL_GPIO_ResetOutputPin(SEGMENTE_PORT, SEGMENTE_PIN);
-	LL_GPIO_ResetOutputPin(SEGMENTB_PORT, SEGMENTB_PIN);
-}
+    0x13, 0x3B, 0x6D
+};
+/* Functions to display numbers 0 - 9 */
+
 
 void setA(void){
  8000f4c:	b580      	push	{r7, lr}
@@ -2609,11 +2609,6 @@ void displayNumber(char char1,char char2,char char3,char char4)
  8001014:	4a03      	ldr	r2, [pc, #12]	; (8001024 <displayNumber+0x50>)
  8001016:	793b      	ldrb	r3, [r7, #4]
  8001018:	7293      	strb	r3, [r2, #10]
-	    	dDisplayData.digit[i] = (uint32_t)num % 10;
-	        num = num / 10;
-	        i++;
-	    }
-	}*/
 }
  800101a:	bf00      	nop
  800101c:	3710      	adds	r7, #16
@@ -2790,11 +2785,7 @@ void updateDisplay(void)
  8001136:	d001      	beq.n	800113c <updateDisplay+0x88>
 			setG();}
  8001138:	f7ff ff42 	bl	8000fc0 <setG>
-		if(dDisplayData.resolution == i)
-		{
-			setDecimalPoint();
-		}
-		*/
+
 		disp_time_saved = disp_time;
  800113c:	4b12      	ldr	r3, [pc, #72]	; (8001188 <updateDisplay+0xd4>)
  800113e:	e9d3 2300 	ldrd	r2, r3, [r3]

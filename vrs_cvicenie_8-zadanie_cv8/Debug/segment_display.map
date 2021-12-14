@@ -498,19 +498,6 @@ Discarded input sections
                 0x0000000000000000        0x9 ./Src/display.o
  .text.setDecimalPoint
                 0x0000000000000000       0x14 ./Src/display.o
- .text.setOne   0x0000000000000000       0x1e ./Src/display.o
- .text.setTwo   0x0000000000000000       0x3c ./Src/display.o
- .text.setThree
-                0x0000000000000000       0x3c ./Src/display.o
- .text.setFour  0x0000000000000000       0x34 ./Src/display.o
- .text.setFive  0x0000000000000000       0x3c ./Src/display.o
- .text.setSix   0x0000000000000000       0x48 ./Src/display.o
- .text.setSeven
-                0x0000000000000000       0x28 ./Src/display.o
- .text.setEight
-                0x0000000000000000       0x54 ./Src/display.o
- .text.setNine  0x0000000000000000       0x40 ./Src/display.o
- .text.setZero  0x0000000000000000       0x4c ./Src/display.o
  .debug_macro   0x0000000000000000      0xaa8 ./Src/display.o
  .debug_macro   0x0000000000000000       0x2f ./Src/display.o
  .debug_macro   0x0000000000000000       0x28 ./Src/display.o
@@ -1668,31 +1655,31 @@ LOAD d:/stm32ide/stm32cubeide_1.7.0/stm32cubeide/plugins/com.st.stm32cube.ide.mc
 LOAD d:/stm32ide/stm32cubeide_1.7.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.win32_2.0.0.202105311346/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a
 LOAD d:/stm32ide/stm32cubeide_1.7.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.win32_2.0.0.202105311346/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/thumb/v7e-m+fp/hard\libgcc.a
 
-.debug_info     0x0000000000000000     0x59b4
+.debug_info     0x0000000000000000     0x58f8
  .debug_info    0x0000000000000000      0x7ce ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_gpio.o
  .debug_info    0x00000000000007ce     0x1093 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_tim.o
  .debug_info    0x0000000000001861      0x87b ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_utils.o
- .debug_info    0x00000000000020dc     0x10da ./Src/display.o
- .debug_info    0x00000000000031b6      0x43a ./Src/gpio.o
- .debug_info    0x00000000000035f0     0x10fa ./Src/main.o
- .debug_info    0x00000000000046ea      0x279 ./Src/stm32f3xx_it.o
- .debug_info    0x0000000000004963      0x439 ./Src/system_stm32f3xx.o
- .debug_info    0x0000000000004d9c      0xbf6 ./Src/tim.o
- .debug_info    0x0000000000005992       0x22 ./Startup/startup_stm32f303k8tx.o
+ .debug_info    0x00000000000020dc     0x101e ./Src/display.o
+ .debug_info    0x00000000000030fa      0x43a ./Src/gpio.o
+ .debug_info    0x0000000000003534     0x10fa ./Src/main.o
+ .debug_info    0x000000000000462e      0x279 ./Src/stm32f3xx_it.o
+ .debug_info    0x00000000000048a7      0x439 ./Src/system_stm32f3xx.o
+ .debug_info    0x0000000000004ce0      0xbf6 ./Src/tim.o
+ .debug_info    0x00000000000058d6       0x22 ./Startup/startup_stm32f303k8tx.o
 
-.debug_abbrev   0x0000000000000000     0x11d7
+.debug_abbrev   0x0000000000000000     0x119b
  .debug_abbrev  0x0000000000000000      0x23b ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_gpio.o
  .debug_abbrev  0x000000000000023b      0x22b ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_tim.o
  .debug_abbrev  0x0000000000000466      0x293 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_utils.o
- .debug_abbrev  0x00000000000006f9      0x2fb ./Src/display.o
- .debug_abbrev  0x00000000000009f4      0x17d ./Src/gpio.o
- .debug_abbrev  0x0000000000000b71      0x295 ./Src/main.o
- .debug_abbrev  0x0000000000000e06       0xad ./Src/stm32f3xx_it.o
- .debug_abbrev  0x0000000000000eb3      0x129 ./Src/system_stm32f3xx.o
- .debug_abbrev  0x0000000000000fdc      0x1e9 ./Src/tim.o
- .debug_abbrev  0x00000000000011c5       0x12 ./Startup/startup_stm32f303k8tx.o
+ .debug_abbrev  0x00000000000006f9      0x2bf ./Src/display.o
+ .debug_abbrev  0x00000000000009b8      0x17d ./Src/gpio.o
+ .debug_abbrev  0x0000000000000b35      0x295 ./Src/main.o
+ .debug_abbrev  0x0000000000000dca       0xad ./Src/stm32f3xx_it.o
+ .debug_abbrev  0x0000000000000e77      0x129 ./Src/system_stm32f3xx.o
+ .debug_abbrev  0x0000000000000fa0      0x1e9 ./Src/tim.o
+ .debug_abbrev  0x0000000000001189       0x12 ./Startup/startup_stm32f303k8tx.o
 
-.debug_aranges  0x0000000000000000      0x5c0
+.debug_aranges  0x0000000000000000      0x570
  .debug_aranges
                 0x0000000000000000       0x70 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_gpio.o
  .debug_aranges
@@ -1700,31 +1687,31 @@ LOAD d:/stm32ide/stm32cubeide_1.7.0/stm32cubeide/plugins/com.st.stm32cube.ide.mc
  .debug_aranges
                 0x00000000000001b8       0xf0 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_utils.o
  .debug_aranges
-                0x00000000000002a8      0x110 ./Src/display.o
+                0x00000000000002a8       0xc0 ./Src/display.o
  .debug_aranges
-                0x00000000000003b8       0x30 ./Src/gpio.o
+                0x0000000000000368       0x30 ./Src/gpio.o
  .debug_aranges
-                0x00000000000003e8       0xa8 ./Src/main.o
+                0x0000000000000398       0xa8 ./Src/main.o
  .debug_aranges
-                0x0000000000000490       0x60 ./Src/stm32f3xx_it.o
+                0x0000000000000440       0x60 ./Src/stm32f3xx_it.o
  .debug_aranges
-                0x00000000000004f0       0x28 ./Src/system_stm32f3xx.o
+                0x00000000000004a0       0x28 ./Src/system_stm32f3xx.o
  .debug_aranges
-                0x0000000000000518       0x80 ./Src/tim.o
+                0x00000000000004c8       0x80 ./Src/tim.o
  .debug_aranges
-                0x0000000000000598       0x28 ./Startup/startup_stm32f303k8tx.o
+                0x0000000000000548       0x28 ./Startup/startup_stm32f303k8tx.o
 
-.debug_ranges   0x0000000000000000      0x528
+.debug_ranges   0x0000000000000000      0x4d8
  .debug_ranges  0x0000000000000000       0x60 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_gpio.o
  .debug_ranges  0x0000000000000060      0x138 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_tim.o
  .debug_ranges  0x0000000000000198       0xe0 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_utils.o
- .debug_ranges  0x0000000000000278      0x100 ./Src/display.o
- .debug_ranges  0x0000000000000378       0x20 ./Src/gpio.o
- .debug_ranges  0x0000000000000398       0x98 ./Src/main.o
- .debug_ranges  0x0000000000000430       0x50 ./Src/stm32f3xx_it.o
- .debug_ranges  0x0000000000000480       0x18 ./Src/system_stm32f3xx.o
- .debug_ranges  0x0000000000000498       0x70 ./Src/tim.o
- .debug_ranges  0x0000000000000508       0x20 ./Startup/startup_stm32f303k8tx.o
+ .debug_ranges  0x0000000000000278       0xb0 ./Src/display.o
+ .debug_ranges  0x0000000000000328       0x20 ./Src/gpio.o
+ .debug_ranges  0x0000000000000348       0x98 ./Src/main.o
+ .debug_ranges  0x00000000000003e0       0x50 ./Src/stm32f3xx_it.o
+ .debug_ranges  0x0000000000000430       0x18 ./Src/system_stm32f3xx.o
+ .debug_ranges  0x0000000000000448       0x70 ./Src/tim.o
+ .debug_ranges  0x00000000000004b8       0x20 ./Startup/startup_stm32f303k8tx.o
 
 .debug_macro    0x0000000000000000     0x35f8
  .debug_macro   0x0000000000000000      0x10c ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_gpio.o
@@ -1781,38 +1768,38 @@ LOAD d:/stm32ide/stm32cubeide_1.7.0/stm32cubeide/plugins/com.st.stm32cube.ide.mc
  .debug_macro   0x00000000000033d9       0xdc ./Src/system_stm32f3xx.o
  .debug_macro   0x00000000000034b5      0x143 ./Src/tim.o
 
-.debug_line     0x0000000000000000     0x4c65
+.debug_line     0x0000000000000000     0x4b33
  .debug_line    0x0000000000000000      0x76d ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_gpio.o
  .debug_line    0x000000000000076d      0xbf2 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_tim.o
  .debug_line    0x000000000000135f      0x915 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_utils.o
- .debug_line    0x0000000000001c74      0xbb5 ./Src/display.o
- .debug_line    0x0000000000002829      0x5f5 ./Src/gpio.o
- .debug_line    0x0000000000002e1e      0xa71 ./Src/main.o
- .debug_line    0x000000000000388f      0x64f ./Src/stm32f3xx_it.o
- .debug_line    0x0000000000003ede      0x515 ./Src/system_stm32f3xx.o
- .debug_line    0x00000000000043f3      0x7f1 ./Src/tim.o
- .debug_line    0x0000000000004be4       0x81 ./Startup/startup_stm32f303k8tx.o
+ .debug_line    0x0000000000001c74      0xa83 ./Src/display.o
+ .debug_line    0x00000000000026f7      0x5f5 ./Src/gpio.o
+ .debug_line    0x0000000000002cec      0xa71 ./Src/main.o
+ .debug_line    0x000000000000375d      0x64f ./Src/stm32f3xx_it.o
+ .debug_line    0x0000000000003dac      0x515 ./Src/system_stm32f3xx.o
+ .debug_line    0x00000000000042c1      0x7f1 ./Src/tim.o
+ .debug_line    0x0000000000004ab2       0x81 ./Startup/startup_stm32f303k8tx.o
 
-.debug_str      0x0000000000000000    0x75ca3
+.debug_str      0x0000000000000000    0x75c53
  .debug_str     0x0000000000000000    0x646b6 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_gpio.o
                                       0x64867 (size before relaxing)
  .debug_str     0x00000000000646b6     0x5cde ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_tim.o
                                       0x69783 (size before relaxing)
  .debug_str     0x000000000006a394     0x5087 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_utils.o
                                       0x68549 (size before relaxing)
- .debug_str     0x000000000006f41b     0x610d ./Src/display.o
-                                      0x72640 (size before relaxing)
- .debug_str     0x0000000000075528       0x45 ./Src/gpio.o
+ .debug_str     0x000000000006f41b     0x60bd ./Src/display.o
+                                      0x725f0 (size before relaxing)
+ .debug_str     0x00000000000754d8       0x45 ./Src/gpio.o
                                       0x6dd8f (size before relaxing)
- .debug_str     0x000000000007556d      0x18a ./Src/main.o
+ .debug_str     0x000000000007551d      0x18a ./Src/main.o
                                       0x726ae (size before relaxing)
- .debug_str     0x00000000000756f7       0xb8 ./Src/stm32f3xx_it.o
+ .debug_str     0x00000000000756a7       0xb8 ./Src/stm32f3xx_it.o
                                       0x6dd25 (size before relaxing)
- .debug_str     0x00000000000757af       0xaa ./Src/system_stm32f3xx.o
+ .debug_str     0x000000000007575f       0xaa ./Src/system_stm32f3xx.o
                                       0x63549 (size before relaxing)
- .debug_str     0x0000000000075859      0x419 ./Src/tim.o
+ .debug_str     0x0000000000075809      0x419 ./Src/tim.o
                                       0x6e377 (size before relaxing)
- .debug_str     0x0000000000075c72       0x31 ./Startup/startup_stm32f303k8tx.o
+ .debug_str     0x0000000000075c22       0x31 ./Startup/startup_stm32f303k8tx.o
                                          0x85 (size before relaxing)
 
 .comment        0x0000000000000000       0x53
@@ -1827,15 +1814,15 @@ LOAD d:/stm32ide/stm32cubeide_1.7.0/stm32cubeide/plugins/com.st.stm32cube.ide.mc
  .comment       0x0000000000000053       0x54 ./Src/system_stm32f3xx.o
  .comment       0x0000000000000053       0x54 ./Src/tim.o
 
-.debug_frame    0x0000000000000000     0x1620
+.debug_frame    0x0000000000000000     0x1508
  .debug_frame   0x0000000000000000      0x1c0 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_gpio.o
  .debug_frame   0x00000000000001c0      0x5d0 ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_tim.o
  .debug_frame   0x0000000000000790      0x3dc ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_utils.o
- .debug_frame   0x0000000000000b6c      0x3d0 ./Src/display.o
- .debug_frame   0x0000000000000f3c       0x84 ./Src/gpio.o
- .debug_frame   0x0000000000000fc0      0x29c ./Src/main.o
- .debug_frame   0x000000000000125c      0x110 ./Src/stm32f3xx_it.o
- .debug_frame   0x000000000000136c       0x58 ./Src/system_stm32f3xx.o
- .debug_frame   0x00000000000013c4      0x210 ./Src/tim.o
- .debug_frame   0x00000000000015d4       0x2c d:/stm32ide/stm32cubeide_1.7.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.win32_2.0.0.202105311346/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-init.o)
- .debug_frame   0x0000000000001600       0x20 d:/stm32ide/stm32cubeide_1.7.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.win32_2.0.0.202105311346/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-memset.o)
+ .debug_frame   0x0000000000000b6c      0x2b8 ./Src/display.o
+ .debug_frame   0x0000000000000e24       0x84 ./Src/gpio.o
+ .debug_frame   0x0000000000000ea8      0x29c ./Src/main.o
+ .debug_frame   0x0000000000001144      0x110 ./Src/stm32f3xx_it.o
+ .debug_frame   0x0000000000001254       0x58 ./Src/system_stm32f3xx.o
+ .debug_frame   0x00000000000012ac      0x210 ./Src/tim.o
+ .debug_frame   0x00000000000014bc       0x2c d:/stm32ide/stm32cubeide_1.7.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.win32_2.0.0.202105311346/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-init.o)
+ .debug_frame   0x00000000000014e8       0x20 d:/stm32ide/stm32cubeide_1.7.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.win32_2.0.0.202105311346/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-memset.o)

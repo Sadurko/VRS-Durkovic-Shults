@@ -87,18 +87,6 @@ int main(void)
 		  }
 	  }
 	  LL_mDelay(500);
-	  /*if(disp_time > (saved_time + 100))
-	  {
-		  //displayNumber(4444);
-		  displayNumber("AbcN");
-	  	  num_to_display -= 0.10;
-	  	  saved_time = disp_time;
-
-	  	  if(num_to_display <= 0)
-	  	  {
-	  		  num_to_display = 100;
-	  	  }
-	  }*/
   }
 
 }
