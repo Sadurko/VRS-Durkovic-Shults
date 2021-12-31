@@ -16,8 +16,7 @@ Src/i2c.o: ../Src/i2c.c ../Inc/i2c.h ../Inc/main.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_utils.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_pwr.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_dma.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_gpio.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_tim.h
+ ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_gpio.h
 
 ../Inc/i2c.h:
 
@@ -58,5 +57,3 @@ Src/i2c.o: ../Src/i2c.c ../Inc/i2c.h ../Inc/main.h \
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_dma.h:
 
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_gpio.h:
-
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_tim.h:

@@ -16,8 +16,7 @@ compass/lis3mdltr.o: ../compass/lis3mdltr.c ../compass/lis3mdltr.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_utils.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_pwr.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_dma.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_gpio.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_tim.h ../Inc/i2c.h \
+ ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_gpio.h ../Inc/i2c.h \
  ../Inc/main.h
 
 ../compass/lis3mdltr.h:
@@ -59,8 +58,6 @@ compass/lis3mdltr.o: ../compass/lis3mdltr.c ../compass/lis3mdltr.h \
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_dma.h:
 
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_gpio.h:
-
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_tim.h:
 
 ../Inc/i2c.h:
 

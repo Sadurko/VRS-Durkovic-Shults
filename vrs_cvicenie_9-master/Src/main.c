@@ -22,21 +22,15 @@
 #include "main.h"
 #include "i2c.h"
 #include "gpio.h"
-#include "tim.h"
-#include "display.h"
 #include "lis3mdltr.h"
 #include "lsm6ds0.h"
+#include "lps25hb.h"
 
 uint8_t temp = 0;
 float mag[3], acc[3];
 
 void SystemClock_Config(void);
 
-extern uint64_t disp_time;
-
-uint64_t saved_time;
-double num_to_display = 10;
-char name[] = "Janko_Bukvicka_123";
 
 int main(void)
 {
@@ -51,52 +45,18 @@ int main(void)
   MX_I2C1_Init();
 
   lsm6ds0_init();
-
-  setSegments();
-  setDigits();
-
-  LL_mDelay(2000);
-
-  resetDigits();
-  resetSegments();
-
-  MX_TIM3_Init();
-
-  int dispStart = 0;
-  int goForward = 1;
+  lsm6ds0_init();
+  hts221_init();
+  float temp, pre, alt,hum;
   while (1)
   {
-	  // z predchadzajuceho zadania
-	  char text[4];
-
-	  if(goForward){
-		  text[0] = name[(dispStart)];
-		  text[1] = name[(dispStart + 1)];
-		  text[2] = name[(dispStart + 2)];
-		  text[3] = name[(dispStart + 3)];
-		  displayNumber(text[3],text[2],text[1],text[0]);
-		  dispStart++;
-		  if(dispStart + 3 >= sizeof(name))
-		  {
-			  goForward = 0;
-		  }
-	  }else
-	  {
-		  text[0] = name[(dispStart)];
-		  text[1] = name[(dispStart - 1)];
-		  text[2] = name[(dispStart - 2)];
-		  text[3] = name[(dispStart - 3)];
-		  displayNumber(text[0],text[1],text[2],text[3]);
-		  dispStart--;
-		  if(dispStart - 3 >= sizeof(name))
-		  {
-		  	goForward = 1;
-		  }
-	  }
-
 	  //os			   x      y        z
 	  lsm6ds0_get_acc(acc, (acc+1), (acc+2));
-	  LL_mDelay(50); // moze byt potrebne zmenit na 500
+	  temp = lps25hb_get_temp(acc, (acc+1), (acc+2));
+	  pre = lps25hb_get_press();
+	  alt = lps25hb_get_alt();
+	  hum = hts221_get_hum();
+	  LL_mDelay(50);
   }
 }
 

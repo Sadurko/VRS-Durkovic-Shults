@@ -17,8 +17,7 @@ accelerometer/lsm6ds0.o: ../accelerometer/lsm6ds0.c \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_utils.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_pwr.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_dma.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_gpio.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_tim.h ../Inc/i2c.h \
+ ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_gpio.h ../Inc/i2c.h \
  ../Inc/main.h
 
 ../accelerometer/lsm6ds0.h:
@@ -60,8 +59,6 @@ accelerometer/lsm6ds0.o: ../accelerometer/lsm6ds0.c \
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_dma.h:
 
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_gpio.h:
-
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_tim.h:
 
 ../Inc/i2c.h:
 

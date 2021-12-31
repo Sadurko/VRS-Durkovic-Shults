@@ -24,5 +24,6 @@ Drivers/STM32F3xx_HAL_Driver/Src \
 Src \
 Startup \
 accelerometer \
+barometer \
 compass \
 
